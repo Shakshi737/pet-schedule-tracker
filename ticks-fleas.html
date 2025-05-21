@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ticks & Fleas Info | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Ticks & Fleas Page Specific Styles */
+        .page-header {
+            background-color: var(--secondary-color);
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .info-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .info-section {
+            margin-bottom: 40px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+        
+        .info-header {
+            background-color: var(--secondary-light);
+            padding: 20px;
+            color: var(--text-dark);
+        }
+        
+        .info-header h2 {
+            margin-bottom: 0;
+            font-size: 1.8rem;
+        }
+        
+        .info-content {
+            padding: 25px;
+        }
+        
+        .info-content p {
+            margin-bottom: 15px;
+            line-height: 1.7;
+        }
+        
+        .collapsible-heading {
+            background-color: var(--light-gray);
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 2px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .collapsible-heading:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .collapsible-heading h3 {
+            margin: 0;
+            font-size: 1.2rem;
+        }
+        
+        .collapsible-heading i {
+            transition: var(--transition);
+        }
+        
+        .collapsible-heading.active i {
+            transform: rotate(180deg);
+        }
+        
+        .collapsible-content {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        .prevention-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .prevention-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: var(--transition);
+        }
+        
+        .prevention-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .prevention-icon {
+            width: 60px;
+            height: 60px;
+            background-color: var(--secondary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+        
+        .prevention-icon i {
+            font-size: 25px;
+            color: white;
+        }
+        
+        .prevention-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+        
+        .prevention-card p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        .info-image {
+            width: 100%;
+            border-radius: var(--radius);
+            margin: 15px 0;
+        }
+        
+        .product-recommendations {
+            margin-top: 30px;
+        }
+        
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .product-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 15px;
+            transition: var(--transition);
+        }
+        
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .product-image {
+            height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: var(--light-gray);
+            border-radius: var(--radius);
+            margin-bottom: 15px;
+        }
+        
+        .product-image i {
+            font-size: 50px;
+            color: var(--secondary-color);
+        }
+        
+        .product-card h4 {
+            margin-bottom: 8px;
+        }
+        
+        .product-card p {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .product-rating {
+            display: flex;
+            color: var(--secondary-color);
+            margin-bottom: 10px;
+        }
+        
+        .symptoms-list,
+        .prevention-list {
+            padding-left: 20px;
+        }
+        
+        .symptoms-list li,
+        .prevention-list li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+        }
+        
+        .symptoms-list li::before,
+        .prevention-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 10px;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: var(--secondary-color);
+        }
+        
+        .faq-section {
+            margin-top: 50px;
+        }
+        
+        .faq-item {
+            margin-bottom: 15px;
+        }
+        
+        .schedule-reminder {
+            background-color: #FFF8E1;
+            padding: 20px;
+            border-left: 4px solid var(--secondary-color);
+            margin-top: 30px;
+            border-radius: var(--radius);
+        }
+        
+        .schedule-reminder h3 {
+            color: var(--secondary-dark);
+        }
+        
+        @media (max-width: 768px) {
+            .prevention-methods {
+                grid-template-columns: 1fr;
+            }
+            
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html" class="active">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1 class="animate-in">Ticks & Fleas Information</h1>
+            <p class="animate-in">Learn about ticks and fleas, their impact on your pet's health, and effective prevention methods.</p>
+        </div>
+
+        <main>
+            <div class="info-container">
+                <div class="info-section">
+                    <div class="info-header">
+                        <h2>Understanding Ticks & Fleas</h2>
+                    </div>
+                    <div class="info-content">
+                        <p>Ticks and fleas are external parasites that can cause significant discomfort and health problems for your dog. These tiny pests can transmit diseases, cause skin irritation, and lead to infections if not properly managed.</p>
+                        
+                        <img src="images/tick-flea-comparison.jpg" alt="Tick and Flea Comparison" class="info-image">
+                        
+                        <div class="collapsible-heading">
+                            <h3>About Ticks</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <p>Ticks are arachnids that feed on the blood of animals and humans. Unlike fleas, ticks attach firmly to the skin and can feed for several days. They're typically found in wooded, brushy areas with tall grass and leaf litter.</p>
+                            
+                            <h4>Common Types of Ticks:</h4>
+                            <ul class="symptoms-list">
+                                <li><strong>Brown Dog Tick:</strong> Can complete its entire lifecycle indoors and is found worldwide.</li>
+                                <li><strong>American Dog Tick:</strong> Common in areas with little or no tree cover, such as grassy fields and hiking trails.</li>
+                                <li><strong>Deer Tick (Black-legged tick):</strong> Found in wooded areas and can transmit Lyme disease.</li>
+                                <li><strong>Lone Star Tick:</strong> Aggressive tick that can transmit ehrlichiosis.</li>
+                            </ul>
+                            
+                            <h4>Diseases Transmitted by Ticks:</h4>
+                            <ul class="symptoms-list">
+                                <li>Lyme Disease</li>
+                                <li>Rocky Mountain Spotted Fever</li>
+                                <li>Ehrlichiosis</li>
+                                <li>Anaplasmosis</li>
+                                <li>Babesiosis</li>
+                                <li>Tick Paralysis</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>About Fleas</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <p>Fleas are small, wingless insects that feed on blood. They're excellent jumpers and can quickly infest your home and your pet. A single female flea can lay up to 50 eggs per day, leading to rapid population growth.</p>
+                            
+                            <h4>Flea Life Cycle:</h4>
+                            <ul class="symptoms-list">
+                                <li><strong>Eggs:</strong> Laid on the host, they fall off into the environment (bedding, carpet, etc.)</li>
+                                <li><strong>Larvae:</strong> Hatch from eggs and feed on organic debris and flea dirt</li>
+                                <li><strong>Pupae:</strong> Develop into cocoons that are resistant to insecticides</li>
+                                <li><strong>Adults:</strong> Emerge from cocoons and jump onto hosts to feed and reproduce</li>
+                            </ul>
+                            
+                            <h4>Problems Caused by Fleas:</h4>
+                            <ul class="symptoms-list">
+                                <li>Flea Allergy Dermatitis (FAD)</li>
+                                <li>Anemia (in severe infestations)</li>
+                                <li>Tapeworms (if dogs ingest infected fleas while grooming)</li>
+                                <li>Bartonellosis (Cat Scratch Disease)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-header">
+                        <h2>Signs & Symptoms</h2>
+                    </div>
+                    <div class="info-content">
+                        <div class="collapsible-heading">
+                            <h3>Signs of Tick Infestation</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <ul class="symptoms-list">
+                                <li>Visible ticks on skin (often found around ears, neck, head, and between toes)</li>
+                                <li>Small bumps on the skin</li>
+                                <li>Tick bite scabs</li>
+                                <li>Head shaking (if ticks are in the ears)</li>
+                                <li>Fever or lethargy (if infected with tick-borne disease)</li>
+                                <li>Joint pain or swelling</li>
+                                <li>Loss of appetite</li>
+                                <li>Weakness or sudden lameness</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>Signs of Flea Infestation</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <ul class="symptoms-list">
+                                <li>Excessive scratching, biting, or licking</li>
+                                <li>Hair loss, especially along the back and tail base</li>
+                                <li>Red, irritated skin or rash</li>
+                                <li>Small, dark specks in fur or bedding ("flea dirt")</li>
+                                <li>Visible fleas in fur, especially in the groin, armpits, and ears</li>
+                                <li>Pale gums (in severe cases due to anemia)</li>
+                                <li>Restlessness</li>
+                                <li>Behavioral changes due to discomfort</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-header">
+                        <h2>Prevention Methods</h2>
+                    </div>
+                    <div class="info-content">
+                        <p>Prevention is the best approach to protecting your dog from ticks and fleas. Here are effective methods to keep these parasites away:</p>
+                        
+                        <div class="prevention-methods">
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-pills"></i>
+                                </div>
+                                <h3>Oral Medications</h3>
+                                <p>Monthly chewable tablets that kill fleas and ticks when they bite your dog. These are convenient and not affected by bathing or swimming.</p>
+                            </div>
+                            
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-tint"></i>
+                                </div>
+                                <h3>Topical Treatments</h3>
+                                <p>Applied to the skin, these medications spread over your dog's body and kill or repel parasites. Effective for 30 days but may wash off with frequent bathing.</p>
+                            </div>
+                            
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-ring"></i>
+                                </div>
+                                <h3>Flea & Tick Collars</h3>
+                                <p>Impregnated with chemicals that repel parasites. Some can provide protection for up to 8 months. Good for dogs that swim frequently.</p>
+                            </div>
+                            
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-spray-can"></i>
+                                </div>
+                                <h3>Sprays & Powders</h3>
+                                <p>Can provide temporary protection against fleas and ticks. Great for immediate relief but typically need frequent reapplication.</p>
+                            </div>
+                            
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-home"></i>
+                                </div>
+                                <h3>Home Environment Treatment</h3>
+                                <p>Regular vacuuming, washing of pet bedding, yard maintenance, and occasionally using household or yard treatments to eliminate eggs and larvae.</p>
+                            </div>
+                            
+                            <div class="prevention-card">
+                                <div class="prevention-icon">
+                                    <i class="fas fa-search"></i>
+                                </div>
+                                <h3>Regular Checks</h3>
+                                <p>Examining your dog's coat and skin regularly, especially after walks in wooded or grassy areas, to catch and remove parasites early.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-reminder">
+                            <h3>Prevention Schedule</h3>
+                            <p>For most areas, flea and tick prevention is recommended year-round, but is especially crucial during warm months (spring through fall). Set calendar reminders to administer preventative treatments on time.</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-header">
+                        <h2>Treatment & Removal</h2>
+                    </div>
+                    <div class="info-content">
+                        <div class="collapsible-heading">
+                            <h3>How to Remove a Tick</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <ol class="prevention-list">
+                                <li>Use fine-tipped tweezers or a tick removal tool.</li>
+                                <li>Grasp the tick as close to the skin's surface as possible.</li>
+                                <li>Pull upward with steady, even pressure. Don't twist or jerk.</li>
+                                <li>After removal, clean the bite area with alcohol or soap and water.</li>
+                                <li>Dispose of the live tick by placing it in alcohol, sealing it in a bag, or flushing it down the toilet.</li>
+                            </ol>
+                            <p><strong>Important:</strong> Never crush a tick with your fingers, and avoid folk remedies like nail polish or petroleum jelly.</p>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>Treating Flea Infestations</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-content">
+                            <h4>Step 1: Treat Your Pet</h4>
+                            <ul class="prevention-list">
+                                <li>Apply a vet-recommended flea treatment product to your dog.</li>
+                                <li>Give your pet a bath with a flea shampoo if recommended by your vet.</li>
+                                <li>Comb your dog with a fine-toothed flea comb, dipping the comb in a bowl of soapy water between passes.</li>
+                            </ul>
+                            
+                            <h4>Step 2: Treat Your Home</h4>
+                            <ul class="prevention-list">
+                                <li>Vacuum thoroughly and frequently, especially in areas where your pet spends time.</li>
+                                <li>Wash all bedding, toys, and other washable items in hot water.</li>
+                                <li>Consider using a household flea spray or fogger for severe infestations.</li>
+                                <li>Treat your yard if necessary with appropriate outdoor products.</li>
+                            </ul>
+                            
+                            <h4>Step 3: Prevention</h4>
+                            <ul class="prevention-list">
+                                <li>Continue regular preventative treatments.</li>
+                                <li>Monitor your pet for signs of reinfestation.</li>
+                                <li>Keep your home clean and vacuumed regularly.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <div class="info-header">
+                        <h2>Product Recommendations</h2>
+                    </div>
+                    <div class="info-content">
+                        <p>Here are some veterinarian-recommended products for flea and tick prevention:</p>
+                        
+                        <div class="product-grid">
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <i class="fas fa-tablets"></i>
+                                </div>
+                                <h4>Oral Preventatives</h4>
+                                <p>Monthly chewable tablets that kill fleas and ticks.</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p><em>Examples: Bravecto, NexGard, Simparica</em></p>
+                            </div>
+                            
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <i class="fas fa-eyedropper"></i>
+                                </div>
+                                <h4>Topical Treatments</h4>
+                                <p>Applied to skin for month-long protection.</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                </div>
+                                <p><em>Examples: Frontline Plus, Advantage II, K9 Advantix II</em></p>
+                            </div>
+                            
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <i class="fas fa-circle"></i>
+                                </div>
+                                <h4>Flea & Tick Collars</h4>
+                                <p>Long-lasting protection for up to 8 months.</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p><em>Examples: Seresto, Preventic</em></p>
+                            </div>
+                            
+                            <div class="product-card">
+                                <div class="product-image">
+                                    <i class="fas fa-shower"></i>
+                                </div>
+                                <h4>Shampoos & Sprays</h4>
+                                <p>For immediate treatment of existing infestations.</p>
+                                <div class="product-rating">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star-half-alt"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                <p><em>Examples: Adams Plus, Vet's Best</em></p>
+                            </div>
+                        </div>
+                        
+                        <p class="note" style="margin-top: 20px; font-style: italic;">Note: Always consult with your veterinarian before starting any parasite prevention program. The effectiveness of products may vary based on your location and your pet's specific needs.</p>
+                    </div>
+                </div>
+                
+                <div class="info-section faq-section">
+                    <div class="info-header">
+                        <h2>Frequently Asked Questions</h2>
+                    </div>
+                    <div class="info-content">
+                        <div class="faq-item">
+                            <div class="collapsible-heading">
+                                <h3>How often should I treat my dog for fleas and ticks?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="collapsible-content">
+                                <p>Most oral and topical preventatives need to be administered monthly. Some newer products can last up to 3 months, and certain collars can provide protection for up to 8 months. Follow the manufacturer's instructions and your vet's recommendations.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="collapsible-heading">
+                                <h3>Is it necessary to treat for fleas and ticks in winter?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="collapsible-content">
+                                <p>In many regions, it's recommended to treat year-round. While ticks may be less active in cold temperatures, they can become active during brief warm spells. Fleas can survive indoors during any season. Your veterinarian can provide guidance based on your specific location.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="collapsible-heading">
+                                <h3>Can my dog get fleas or ticks if they rarely go outside?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="collapsible-content">
+                                <p>Yes, parasites can be brought into your home on clothing or by other pets. Fleas can jump from wildlife or neighboring yards into your home environment, and once inside, they can multiply rapidly.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="collapsible-heading">
+                                <h3>Are natural remedies effective against fleas and ticks?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="collapsible-content">
+                                <p>Most natural remedies have limited scientific evidence supporting their effectiveness. While some (like certain essential oils) may offer some repellent effects, they typically don't provide the same level of protection as veterinary-approved products. Additionally, some natural substances can be toxic to dogs, so always consult your vet before using them.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="faq-item">
+                            <div class="collapsible-heading">
+                                <h3>What should I do if my dog has a reaction to a flea or tick product?</h3>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <div class="collapsible-content">
+                                <p>If you notice symptoms like excessive scratching, redness, hair loss, vomiting, or lethargy after applying a product, contact your veterinarian immediately. Bathe your dog with mild soap if it's a topical product (unless instructed otherwise by your vet). Always keep the product packaging for reference.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+</body>
+</html> 

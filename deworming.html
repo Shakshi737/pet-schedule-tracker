@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deworming Schedule | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Deworming Schedule Page Specific Styles */
+        .page-header {
+            background-color: #7E57C2;
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .schedule-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .filters {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            flex: 1 1 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+        }
+        
+        .schedule-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: #5E35B1;
+            border-bottom: 2px solid #B39DDB;
+            padding-bottom: 10px;
+        }
+        
+        .schedule-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .task-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-item.checked {
+            background-color: #F3E5F5;
+        }
+        
+        .task-check {
+            margin-right: 15px;
+        }
+        
+        .task-checkbox {
+            display: none;
+        }
+        
+        .task-checkbox-label {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .task-checkbox-label::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            background-color: white;
+            border: 2px solid #9575CD;
+            border-radius: 4px;
+        }
+        
+        .task-checkbox:checked + .task-checkbox-label::before {
+            background-color: #7E57C2;
+        }
+        
+        .task-checkbox:checked + .task-checkbox-label::after {
+            content: '\f00c';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            position: absolute;
+            top: 1px;
+            left: 5px;
+            color: white;
+            font-size: 14px;
+        }
+        
+        .task-text {
+            flex: 1;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+            transition: var(--transition);
+        }
+        
+        .task-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            transition: var(--transition);
+        }
+        
+        .task-complete .task-title {
+            text-decoration: line-through;
+            color: var(--text-light);
+        }
+        
+        .task-complete .task-description {
+            text-decoration: line-through;
+        }
+        
+        .task-timing {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            padding: 8px 15px;
+            background-color: #B39DDB;
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .task-timing i {
+            margin-right: 5px;
+        }
+        
+        .print-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #7E57C2;
+            color: white;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .print-button:hover {
+            background-color: #5E35B1;
+        }
+        
+        .print-button i {
+            margin-right: 10px;
+        }
+        
+        .information-box {
+            background-color: #EDE7F6;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 30px;
+        }
+        
+        .information-box h3 {
+            color: #5E35B1;
+            margin-bottom: 10px;
+        }
+        
+        .information-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .filters {
+                flex-direction: column;
+            }
+            
+            .task-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .task-check {
+                margin-bottom: 10px;
+            }
+            
+            .task-timing {
+                margin-left: 0;
+                margin-top: 10px;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html" class="active">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1>Deworming Schedule</h1>
+            <p>Keep track of your pet's deworming treatments to protect them from internal parasites. Follow these recommended schedules based on your pet's age and risk level.</p>
+        </div>
+
+        <div class="schedule-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label for="pet-age">Pet Age:</label>
+                    <select id="pet-age" class="filter-select">
+                        <option value="all">All Ages</option>
+                        <option value="puppy">Puppy (0-6 months)</option>
+                        <option value="junior">Junior (6-12 months)</option>
+                        <option value="adult">Adult (1+ years)</option>
+                        <option value="senior">Senior (7+ years)</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="risk-level">Risk Level:</label>
+                    <select id="risk-level" class="filter-select">
+                        <option value="all">All Risk Levels</option>
+                        <option value="low">Low Risk</option>
+                        <option value="medium">Medium Risk</option>
+                        <option value="high">High Risk</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label for="parasite-type">Parasite Type:</label>
+                    <select id="parasite-type" class="filter-select">
+                        <option value="all">All Types</option>
+                        <option value="roundworms">Roundworms</option>
+                        <option value="hookworms">Hookworms</option>
+                        <option value="tapeworms">Tapeworms</option>
+                        <option value="whipworms">Whipworms</option>
+                        <option value="heartworms">Heartworms</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="schedule-section" data-age="puppy">
+                <h2 class="section-title">Puppy Deworming Schedule (0-6 months)</h2>
+                <div class="schedule-items">
+                    <div class="task-item" data-risk="high medium" data-parasite="roundworms hookworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task1" class="task-checkbox">
+                            <label for="task1" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">First Deworming</div>
+                            <div class="task-description">Initial treatment for roundworms and hookworms</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            2 weeks of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="roundworms hookworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task2" class="task-checkbox">
+                            <label for="task2" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Second Deworming</div>
+                            <div class="task-description">Follow-up treatment for roundworms and hookworms</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            4 weeks of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="roundworms hookworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task3" class="task-checkbox">
+                            <label for="task3" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Third Deworming</div>
+                            <div class="task-description">Additional treatment for roundworms and hookworms</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            6 weeks of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task4" class="task-checkbox">
+                            <label for="task4" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Fourth Deworming</div>
+                            <div class="task-description">Comprehensive deworming for multiple parasites</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            8 weeks of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task5" class="task-checkbox">
+                            <label for="task5" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Fifth Deworming</div>
+                            <div class="task-description">Follow-up comprehensive treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            12 weeks of age
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-section" data-age="junior">
+                <h2 class="section-title">Junior Dogs (6-12 months)</h2>
+                <div class="schedule-items">
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task6" class="task-checkbox">
+                            <label for="task6" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">6 Month Deworming</div>
+                            <div class="task-description">Comprehensive deworming treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            6 months of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="heartworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task7" class="task-checkbox">
+                            <label for="task7" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Heartworm Prevention</div>
+                            <div class="task-description">Start monthly heartworm preventative treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            6 months onwards
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task8" class="task-checkbox">
+                            <label for="task8" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">9 Month Deworming</div>
+                            <div class="task-description">Additional treatment for high-risk dogs</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            9 months of age
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task9" class="task-checkbox">
+                            <label for="task9" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">12 Month Deworming</div>
+                            <div class="task-description">Annual comprehensive deworming treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            12 months of age
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-section" data-age="adult">
+                <h2 class="section-title">Adult Dogs (1+ years)</h2>
+                <div class="schedule-items">
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task10" class="task-checkbox">
+                            <label for="task10" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Annual Deworming</div>
+                            <div class="task-description">Yearly comprehensive deworming treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Every 12 months
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task11" class="task-checkbox">
+                            <label for="task11" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Bi-Annual Deworming</div>
+                            <div class="task-description">Twice-yearly treatment for medium to high-risk dogs</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Every 6 months
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task12" class="task-checkbox">
+                            <label for="task12" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Quarterly Deworming</div>
+                            <div class="task-description">Every three months for dogs at high risk</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Every 3 months
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="heartworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task13" class="task-checkbox">
+                            <label for="task13" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Heartworm Prevention</div>
+                            <div class="task-description">Monthly heartworm preventative treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Monthly
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="schedule-section" data-age="senior">
+                <h2 class="section-title">Senior Dogs (7+ years)</h2>
+                <div class="schedule-items">
+                    <div class="task-item" data-risk="high medium low" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task14" class="task-checkbox">
+                            <label for="task14" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Annual Deworming</div>
+                            <div class="task-description">Yearly gentle deworming treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Every 12 months
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="roundworms hookworms tapeworms whipworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task15" class="task-checkbox">
+                            <label for="task15" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Bi-Annual Deworming</div>
+                            <div class="task-description">Twice-yearly treatment for medium to high-risk senior dogs</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Every 6 months
+                        </div>
+                    </div>
+                    <div class="task-item" data-risk="high medium" data-parasite="heartworms">
+                        <div class="task-check">
+                            <input type="checkbox" id="task16" class="task-checkbox">
+                            <label for="task16" class="task-checkbox-label"></label>
+                        </div>
+                        <div class="task-text">
+                            <div class="task-title">Heartworm Prevention</div>
+                            <div class="task-description">Monthly heartworm preventative treatment</div>
+                        </div>
+                        <div class="task-timing">
+                            <i class="fas fa-calendar-alt"></i>
+                            Monthly
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="print-button">
+                <i class="fas fa-print"></i> Print Schedule
+            </button>
+
+            <div class="information-box">
+                <h3>About Deworming</h3>
+                <p>Regular deworming is essential for your pet's health. Intestinal parasites can cause weight loss, diarrhea, vomiting, and in severe cases, anemia or intestinal blockages.</p>
+                <p>The frequency of deworming depends on your dog's age, lifestyle, and risk level:</p>
+                <ul style="list-style-type: disc; margin-left: 20px; margin-top: 10px;">
+                    <li><strong>Low Risk:</strong> Indoor dogs with limited outdoor exposure and no contact with other animals.</li>
+                    <li><strong>Medium Risk:</strong> Dogs that regularly visit dog parks or have occasional contact with other dogs.</li>
+                    <li><strong>High Risk:</strong> Dogs that hunt, are exposed to multiple animals, visit kennels frequently, or live in multi-pet households.</li>
+                </ul>
+                <p>Always consult your veterinarian about the most appropriate deworming schedule for your specific pet.</p>
+            </div>
+        </div>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+    <script>
+        // Deworming Schedule Page JavaScript
+        document.addEventListener('DOMContentLoaded', function() {
+            // Task checkbox functionality
+            const taskCheckboxes = document.querySelectorAll('.task-checkbox');
+            
+            taskCheckboxes.forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    const taskItem = this.closest('.task-item');
+                    const taskText = taskItem.querySelector('.task-text');
+                    
+                    if (this.checked) {
+                        taskText.classList.add('task-complete');
+                        taskItem.classList.add('checked');
+                        
+                        // Save state to localStorage
+                        localStorage.setItem('deworming_task_' + this.id, 'completed');
+                    } else {
+                        taskText.classList.remove('task-complete');
+                        taskItem.classList.remove('checked');
+                        
+                        // Remove from localStorage
+                        localStorage.removeItem('deworming_task_' + this.id);
+                    }
+                });
+                
+                // Load saved state
+                const savedState = localStorage.getItem('deworming_task_' + checkbox.id);
+                if (savedState === 'completed') {
+                    checkbox.checked = true;
+                    const taskItem = checkbox.closest('.task-item');
+                    const taskText = taskItem.querySelector('.task-text');
+                    taskText.classList.add('task-complete');
+                    taskItem.classList.add('checked');
+                }
+            });
+            
+            // Filter functionality
+            const filterSelects = document.querySelectorAll('.filter-select');
+            
+            function applyFilters() {
+                const selectedAge = document.getElementById('pet-age').value;
+                const selectedRisk = document.getElementById('risk-level').value;
+                const selectedParasite = document.getElementById('parasite-type').value;
+                
+                // Filter sections by age
+                document.querySelectorAll('.schedule-section').forEach(section => {
+                    if (selectedAge === 'all' || section.getAttribute('data-age') === selectedAge) {
+                        section.style.display = 'block';
+                    } else {
+                        section.style.display = 'none';
+                    }
+                });
+                
+                // Filter tasks by risk level and parasite type
+                document.querySelectorAll('.task-item').forEach(item => {
+                    const itemRisks = item.getAttribute('data-risk').split(' ');
+                    const itemParasites = item.getAttribute('data-parasite').split(' ');
+                    
+                    const riskMatch = selectedRisk === 'all' || itemRisks.includes(selectedRisk);
+                    const parasiteMatch = selectedParasite === 'all' || itemParasites.includes(selectedParasite);
+                    
+                    if (riskMatch && parasiteMatch) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+                
+                // Check if any items are visible in each section
+                document.querySelectorAll('.schedule-section').forEach(section => {
+                    if (section.style.display !== 'none') {
+                        const visibleItems = Array.from(section.querySelectorAll('.task-item')).filter(item => {
+                            return item.style.display !== 'none';
+                        });
+                        
+                        if (visibleItems.length === 0) {
+                            section.style.display = 'none';
+                        }
+                    }
+                });
+            }
+            
+            filterSelects.forEach(select => {
+                select.addEventListener('change', applyFilters);
+            });
+            
+            // Print button functionality
+            const printButton = document.querySelector('.print-button');
+            
+            printButton.addEventListener('click', function() {
+                window.print();
+            });
+        });
+    </script>
+</body>
+</html> 

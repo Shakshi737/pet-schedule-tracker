@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                    <li><a href="emergency.html">Emergency</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="hero">
+                <div class="hero-content">
+                    <h1 class="animate-in">Your Pet's Health Tracker</h1>
+                    <p class="animate-in">Keep track of vaccinations, grooming, and care schedules for your furry friend.</p>
+                    <div class="search-container animate-in">
+                        <input type="text" id="breed-search" placeholder="Search by breed...">
+                        <button id="search-btn"><i class="fas fa-search"></i></button>
+                    </div>
+                    <div class="cta-buttons">
+                        <a href="vaccine.html" class="btn primary-btn animate-in">Vaccine Schedule</a>
+                        <a href="food.html" class="btn secondary-btn animate-in">Food Chart</a>
+                    </div>
+                </div>
+                <div class="hero-image animate-in">
+                    <img src="images/hero-dog.png" alt="Happy dog">
+                </div>
+            </section>
+
+            <section class="features">
+                <h2 class="section-title">Features</h2>
+                <div class="feature-cards">
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <h3>Vaccine Tracker</h3>
+                        <p>Keep track of your pet's vaccination schedule and never miss an important shot.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bug"></i>
+                        </div>
+                        <h3>Pest Control</h3>
+                        <p>Information and schedules for tick and flea prevention treatments.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <h3>Deworming</h3>
+                        <p>Tailored deworming schedules based on your dog's age and breed.</p>
+                    </div>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-bone"></i>
+                        </div>
+                        <h3>Nutrition Guide</h3>
+                        <p>Recommended food quantities based on weight, age, and breed.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="popular-breeds">
+                <h2 class="section-title">Popular Breeds</h2>
+                <div class="breed-slider">
+                    <div class="breed-card">
+                        <img src="images/breeds/labrador.jpg" alt="Labrador">
+                        <h3>Labrador Retriever</h3>
+                        <a href="#" class="breed-link" data-breed="labrador">View Care Guide</a>
+                    </div>
+                    <div class="breed-card">
+                        <img src="images/breeds/german-shepherd.jpg" alt="German Shepherd">
+                        <h3>German Shepherd</h3>
+                        <a href="#" class="breed-link" data-breed="german-shepherd">View Care Guide</a>
+                    </div>
+                    <div class="breed-card">
+                        <img src="images/breeds/bulldog.jpg" alt="Bulldog">
+                        <h3>Bulldog</h3>
+                        <a href="#" class="breed-link" data-breed="bulldog">View Care Guide</a>
+                    </div>
+                    <div class="breed-card">
+                        <img src="images/breeds/beagle.jpg" alt="Beagle">
+                        <h3>Beagle</h3>
+                        <a href="#" class="breed-link" data-breed="beagle">View Care Guide</a>
+                    </div>
+                </div>
+                <div class="slider-controls">
+                    <button class="slider-prev"><i class="fas fa-chevron-left"></i></button>
+                    <button class="slider-next"><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+</body>
+</html> 

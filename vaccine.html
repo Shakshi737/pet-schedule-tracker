@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaccine Schedule | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Vaccine Schedule Page Specific Styles */
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .schedule-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .filters {
+            background-color: var(--white);
+            padding: 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 30px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .filter-group {
+            flex: 1 1 200px;
+        }
+        
+        .filter-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .filter-select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--white);
+        }
+        
+        .schedule-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            border-bottom: 2px solid var(--primary-light);
+            padding-bottom: 10px;
+        }
+        
+        .schedule-items {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .schedule-item {
+            display: flex;
+            align-items: center;
+            background-color: var(--white);
+            padding: 15px 20px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+        
+        .schedule-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .task-check {
+            margin-right: 15px;
+        }
+        
+        .task-checkbox {
+            display: none;
+        }
+        
+        .task-checkbox-label {
+            display: inline-block;
+            width: 24px;
+            height: 24px;
+            position: relative;
+            cursor: pointer;
+        }
+        
+        .task-checkbox-label .checkmark {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 24px;
+            width: 24px;
+            border-radius: 4px;
+        }
+        
+        .task-content {
+            flex: 1;
+        }
+        
+        .task-title {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .task-description {
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        .task-timing {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
+            padding: 8px 15px;
+            background-color: var(--primary-light);
+            color: white;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        .task-timing i {
+            margin-right: 5px;
+        }
+        
+        .print-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: var(--secondary-color);
+            color: white;
+            border-radius: var(--radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        
+        .print-button:hover {
+            background-color: var(--secondary-dark);
+        }
+        
+        .print-button i {
+            margin-right: 10px;
+        }
+        
+        .information-box {
+            background-color: #E3F2FD;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 30px;
+        }
+        
+        .information-box h3 {
+            color: #1976D2;
+            margin-bottom: 10px;
+        }
+        
+        .information-box p:last-child {
+            margin-bottom: 0;
+        }
+        
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .schedule-item {
+                flex-wrap: wrap;
+            }
+            
+            .task-timing {
+                margin-left: 0;
+                margin-top: 10px;
+                align-self: flex-start;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html" class="active">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1 class="animate-in">Vaccine Schedule</h1>
+            <p class="animate-in">Keep track of important vaccinations for your dog. Properly timed vaccinations are essential for your pet's health and well-being.</p>
+        </div>
+
+        <main>
+            <div class="schedule-container">
+                <div class="filters">
+                    <div class="filter-group">
+                        <label for="breed-filter">Filter by Breed:</label>
+                        <select id="breed-filter" class="filter-select">
+                            <option value="all">All Breeds</option>
+                            <option value="labrador">Labrador Retriever</option>
+                            <option value="german-shepherd">German Shepherd</option>
+                            <option value="bulldog">Bulldog</option>
+                            <option value="beagle">Beagle</option>
+                            <option value="poodle">Poodle</option>
+                            <option value="husky">Husky</option>
+                            <option value="boxer">Boxer</option>
+                            <option value="mixed">Mixed Breed</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="age-filter">Filter by Age:</label>
+                        <select id="age-filter" class="filter-select">
+                            <option value="all">All Ages</option>
+                            <option value="puppy">Puppy (0-6 months)</option>
+                            <option value="juvenile">Juvenile (6-12 months)</option>
+                            <option value="adult">Adult (1-7 years)</option>
+                            <option value="senior">Senior (7+ years)</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <label for="weight-filter">Filter by Weight:</label>
+                        <select id="weight-filter" class="filter-select">
+                            <option value="all">All Weights</option>
+                            <option value="small">Small (0-20 lbs)</option>
+                            <option value="medium">Medium (21-50 lbs)</option>
+                            <option value="large">Large (51-90 lbs)</option>
+                            <option value="giant">Giant (91+ lbs)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <h2 class="section-title">Puppy Vaccines (0-6 months)</h2>
+                    <div class="schedule-items">
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="puppy" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task1" class="task-checkbox">
+                                <label for="task1" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Distemper & Parvovirus (DHPP) - First Dose</div>
+                                <div class="task-description">Protection against highly contagious and serious diseases.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 6-8 weeks
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="puppy" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task2" class="task-checkbox">
+                                <label for="task2" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">DHPP - Second Dose</div>
+                                <div class="task-description">Second dose in the vaccination series.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 10-12 weeks
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="puppy" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task3" class="task-checkbox">
+                                <label for="task3" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">DHPP - Third Dose</div>
+                                <div class="task-description">Final dose in the initial vaccination series.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 14-16 weeks
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="puppy" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task4" class="task-checkbox">
+                                <label for="task4" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Rabies Vaccine</div>
+                                <div class="task-description">Required by law in most areas. Protects against fatal disease.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 16 weeks
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="puppy" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task5" class="task-checkbox">
+                                <label for="task5" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Bordetella (Kennel Cough)</div>
+                                <div class="task-description">Recommended if your dog will attend daycare, boarding, or dog parks.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 8-16 weeks
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <h2 class="section-title">Juvenile & Adult Vaccines (6 months - 7 years)</h2>
+                    <div class="schedule-items">
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="juvenile adult" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task6" class="task-checkbox">
+                                <label for="task6" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">DHPP Booster</div>
+                                <div class="task-description">Follow-up to puppy series to maintain immunity.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 1 year after puppy series
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="juvenile adult" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task7" class="task-checkbox">
+                                <label for="task7" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Rabies Booster</div>
+                                <div class="task-description">Required by law in most areas.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> 1-3 years (depends on vaccine type)
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="juvenile adult" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task8" class="task-checkbox">
+                                <label for="task8" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">DHPP Booster</div>
+                                <div class="task-description">Regular booster to maintain immunity.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Every 1-3 years
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="juvenile adult" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task9" class="task-checkbox">
+                                <label for="task9" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Bordetella Booster</div>
+                                <div class="task-description">Recommended annually for social dogs.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Every 6-12 months
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="juvenile adult" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task10" class="task-checkbox">
+                                <label for="task10" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Leptospirosis</div>
+                                <div class="task-description">Recommended in areas where this bacterial disease is common.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Annually
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="schedule-section">
+                    <h2 class="section-title">Senior Dog Vaccines (7+ years)</h2>
+                    <div class="schedule-items">
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="senior" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task11" class="task-checkbox">
+                                <label for="task11" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">DHPP Booster</div>
+                                <div class="task-description">Continued protection, may be administered less frequently based on vet assessment.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Every 1-3 years
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="senior" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task12" class="task-checkbox">
+                                <label for="task12" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Rabies Booster</div>
+                                <div class="task-description">Required by law in most areas.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Every 1-3 years
+                            </div>
+                        </div>
+                        
+                        <div class="schedule-item check-animation task-item" data-breed="all" data-age="senior" data-weight="all">
+                            <div class="task-check">
+                                <input type="checkbox" id="task13" class="task-checkbox">
+                                <label for="task13" class="task-checkbox-label"></label>
+                            </div>
+                            <div class="task-content">
+                                <div class="task-title task-text">Bordetella (if socially active)</div>
+                                <div class="task-description">Recommended for dogs that visit groomers, kennels, or dog parks.</div>
+                            </div>
+                            <div class="task-timing">
+                                <i class="fas fa-calendar-alt"></i> Every 6-12 months
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="#" class="print-button"><i class="fas fa-print"></i> Print Schedule</a>
+
+                <div class="information-box">
+                    <h3>Important Information</h3>
+                    <ul>
+                        <li>This schedule is a general guideline. Your veterinarian may recommend a customized schedule based on your dog's specific needs.</li>
+                        <li>Some areas have different requirements for rabies vaccination frequency.</li>
+                        <li>Additional vaccines may be recommended based on your geographic location and your dog's lifestyle.</li>
+                        <li>Always consult with your veterinarian before starting any vaccination protocol.</li>
+                    </ul>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+</body>
+</html> 

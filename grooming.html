@@ -1,0 +1,842 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Basic Grooming Tips | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Grooming Page Specific Styles */
+        .page-header {
+            background-color: #7E57C2; /* Purple color for grooming theme */
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .grooming-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        
+        .intro-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .intro-section h2 {
+            color: #5E35B1;
+            margin-bottom: 20px;
+            font-size: 1.8rem;
+        }
+        
+        .intro-section p {
+            line-height: 1.7;
+            margin-bottom: 15px;
+        }
+        
+        .grooming-tools {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        
+        .tool-badge {
+            background-color: #EDE7F6;
+            color: #5E35B1;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tool-badge i {
+            margin-right: 6px;
+        }
+        
+        .tip-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .tip-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+            height: 100%;
+        }
+        
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .tip-header {
+            background-color: #7E57C2;
+            color: white;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .tip-header i {
+            font-size: 1.5rem;
+            margin-right: 15px;
+        }
+        
+        .tip-header h3 {
+            margin: 0;
+            font-size: 1.3rem;
+        }
+        
+        .tip-content {
+            padding: 20px;
+        }
+        
+        .tip-content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .tip-content ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .tip-content ul li {
+            margin-bottom: 10px;
+            padding-left: 25px;
+            position: relative;
+        }
+        
+        .tip-content ul li::before {
+            content: '\f00c';
+            font-family: 'Font Awesome 5 Free';
+            font-weight: 900;
+            color: #7E57C2;
+            position: absolute;
+            left: 0;
+        }
+        
+        .collapsible-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            margin-bottom: 40px;
+            overflow: hidden;
+        }
+        
+        .collapsible-header {
+            background-color: #7E57C2;
+            color: white;
+            padding: 20px;
+        }
+        
+        .collapsible-header h2 {
+            margin: 0;
+            font-size: 1.8rem;
+        }
+        
+        .collapsible-content {
+            padding: 30px;
+        }
+        
+        .collapsible-heading {
+            background-color: #EDE7F6;
+            padding: 15px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 2px;
+            border-radius: 4px;
+            transition: var(--transition);
+        }
+        
+        .collapsible-heading:hover {
+            background-color: #D1C4E9;
+        }
+        
+        .collapsible-heading h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #5E35B1;
+        }
+        
+        .collapsible-heading i {
+            transition: var(--transition);
+            color: #5E35B1;
+        }
+        
+        .collapsible-heading.active i {
+            transform: rotate(180deg);
+        }
+        
+        .collapsible-body {
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            background-color: var(--white);
+        }
+        
+        .breed-specific-section {
+            margin-top: 40px;
+        }
+        
+        .breed-filter {
+            margin-bottom: 20px;
+        }
+        
+        .breed-filter select {
+            padding: 10px 15px;
+            border-radius: var(--radius);
+            border: 1px solid var(--light-gray);
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+            max-width: 300px;
+        }
+        
+        .breed-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 30px;
+        }
+        
+        .breed-card {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        
+        .breed-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .breed-image {
+            height: 180px;
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .breed-info {
+            padding: 20px;
+        }
+        
+        .breed-info h3 {
+            color: #5E35B1;
+            margin-bottom: 10px;
+        }
+        
+        .grooming-level {
+            display: flex;
+            margin: 10px 0;
+        }
+        
+        .grooming-level span {
+            color: #5E35B1;
+            margin-right: 5px;
+        }
+        
+        .grooming-frequency {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #EDE7F6;
+            border-radius: var(--radius);
+        }
+        
+        .grooming-frequency h4 {
+            margin-top: 0;
+            color: #5E35B1;
+        }
+        
+        .grooming-frequency ul {
+            padding-left: 20px;
+            margin-bottom: 0;
+        }
+        
+        .grooming-checklist {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 30px;
+            margin-top: 40px;
+        }
+        
+        .grooming-checklist h2 {
+            color: #5E35B1;
+            margin-bottom: 20px;
+        }
+        
+        .checklist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px 15px;
+            background-color: #F5F5F5;
+            border-radius: var(--radius);
+        }
+        
+        .checklist-checkbox {
+            margin-right: 15px;
+            margin-top: 3px;
+        }
+        
+        .checklist-text h3 {
+            margin: 0 0 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .checklist-text p {
+            margin: 0;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        
+        @media (max-width: 768px) {
+            .tip-cards-container,
+            .breed-cards,
+            .checklist-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html" class="active">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1 class="animate-in">Basic Grooming Tips</h1>
+            <p class="animate-in">Keep your dog looking and feeling their best with these essential grooming practices.</p>
+        </div>
+
+        <main>
+            <div class="grooming-container">
+                <section class="intro-section">
+                    <h2>Why Grooming Matters</h2>
+                    <p>Regular grooming is essential for your dog's health and well-being. It's not just about keeping your pet looking good – proper grooming helps prevent skin issues, reduces shedding, allows for early detection of abnormalities, and provides an opportunity to bond with your furry friend.</p>
+                    
+                    <p>Every dog has different grooming needs based on their breed, coat type, age, and lifestyle. This guide provides general tips and best practices for keeping your dog clean, comfortable, and healthy.</p>
+                    
+                    <h3>Essential Grooming Tools</h3>
+                    <div class="grooming-tools">
+                        <span class="tool-badge"><i class="fas fa-brush"></i> Dog Brush</span>
+                        <span class="tool-badge"><i class="fas fa-cut"></i> Grooming Scissors</span>
+                        <span class="tool-badge"><i class="fas fa-paw"></i> Nail Clippers</span>
+                        <span class="tool-badge"><i class="fas fa-shower"></i> Dog Shampoo</span>
+                        <span class="tool-badge"><i class="fas fa-tooth"></i> Dog Toothbrush</span>
+                        <span class="tool-badge"><i class="fas fa-water"></i> Ear Cleaner</span>
+                        <span class="tool-badge"><i class="fas fa-eye"></i> Eye Wipes</span>
+                        <span class="tool-badge"><i class="fas fa-paw"></i> Paw Balm</span>
+                    </div>
+                </section>
+                
+                <div class="tip-cards-container">
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-brush"></i>
+                            <h3>Brushing</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Regular brushing removes loose fur, distributes natural oils, and prevents mats and tangles. The frequency and type of brush depend on your dog's coat.</p>
+                            
+                            <ul>
+                                <li>Short coat: Brush 1-2 times weekly with a rubber brush or bristle brush</li>
+                                <li>Medium coat: Brush 2-3 times weekly with a slicker brush</li>
+                                <li>Long coat: Brush daily with a pin brush and slicker brush</li>
+                                <li>Double coat: Use an undercoat rake during shedding seasons</li>
+                                <li>Always brush in the direction of hair growth</li>
+                                <li>Start gentle and reward with treats for positive association</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-shower"></i>
+                            <h3>Bathing</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Most dogs need bathing every 1-3 months, depending on activity level and coat type. Over-bathing can strip natural oils from the skin.</p>
+                            
+                            <ul>
+                                <li>Use lukewarm water and dog-specific shampoo</li>
+                                <li>Place a non-slip mat in the tub for safety</li>
+                                <li>Wet thoroughly before applying shampoo</li>
+                                <li>Avoid getting water in ears and eyes</li>
+                                <li>Rinse completely to remove all shampoo</li>
+                                <li>Towel dry and keep your dog warm until completely dry</li>
+                                <li>Follow with brushing once coat is dry</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-cut"></i>
+                            <h3>Nail Trimming</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Overgrown nails can cause discomfort, affect gait, and even lead to orthopedic issues. Most dogs need nail trimming every 3-4 weeks.</p>
+                            
+                            <ul>
+                                <li>Use proper dog nail clippers or a grinder</li>
+                                <li>Trim in good lighting to see the quick (pink area)</li>
+                                <li>Cut small amounts at a time to avoid the quick</li>
+                                <li>Have styptic powder ready in case of bleeding</li>
+                                <li>Reward your dog after each paw to create positive association</li>
+                                <li>If you're unsure, consult a professional groomer</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-tooth"></i>
+                            <h3>Dental Care</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Dental health affects overall health. Ideally, brush your dog's teeth daily, but at minimum 2-3 times per week.</p>
+                            
+                            <ul>
+                                <li>Use dog-specific toothpaste (never human toothpaste)</li>
+                                <li>Start with letting your dog taste the toothpaste</li>
+                                <li>Use a dog toothbrush or finger brush</li>
+                                <li>Focus on the outer surfaces of the teeth</li>
+                                <li>Start with short sessions and gradually increase</li>
+                                <li>Dental chews and toys can supplement brushing</li>
+                                <li>Schedule professional dental cleanings as recommended by your vet</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-eye"></i>
+                            <h3>Eye Care</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Regular eye checks can prevent infections and catch eye problems early. Some breeds are more prone to eye issues.</p>
+                            
+                            <ul>
+                                <li>Use a damp, clean cloth to gently wipe around eyes</li>
+                                <li>Remove discharge from the corners of eyes</li>
+                                <li>Watch for excessive tearing, redness, or cloudiness</li>
+                                <li>For breeds with prominent eyes, clean under eye folds</li>
+                                <li>Trim hair around eyes to prevent irritation (carefully or ask a professional)</li>
+                                <li>Consult a vet for any signs of eye problems</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="tip-card">
+                        <div class="tip-header">
+                            <i class="fas fa-water"></i>
+                            <h3>Ear Care</h3>
+                        </div>
+                        <div class="tip-content">
+                            <p>Clean ears help prevent infections. Dogs with floppy ears or who swim often need more frequent ear cleaning.</p>
+                            
+                            <ul>
+                                <li>Check ears weekly for dirt, redness, or odor</li>
+                                <li>Use a vet-approved dog ear cleaner</li>
+                                <li>Apply cleaner to a cotton ball (not directly into ear)</li>
+                                <li>Gently wipe the visible part of the inner ear</li>
+                                <li>Never insert anything into the ear canal</li>
+                                <li>Allow your dog to shake their head after cleaning</li>
+                                <li>Watch for head shaking, scratching, or odor (signs of infection)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                
+                <section class="collapsible-section">
+                    <div class="collapsible-header">
+                        <h2>Seasonal Grooming Tips</h2>
+                    </div>
+                    <div class="collapsible-content">
+                        <div class="collapsible-heading">
+                            <h3>Spring Grooming</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>Brush more frequently as winter coats shed</li>
+                                <li>Consider a deshedding tool for heavy shedders</li>
+                                <li>Check for and remove any matting from winter</li>
+                                <li>Begin flea and tick prevention before peak season</li>
+                                <li>Check paw pads for cracks from winter dryness</li>
+                                <li>Schedule professional grooming if needed</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>Summer Grooming</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>Never shave double-coated breeds (disrupts heat regulation)</li>
+                                <li>Increase bathing frequency if dog swims often</li>
+                                <li>Check between paw pads for grass seeds and debris</li>
+                                <li>Maintain flea and tick prevention</li>
+                                <li>Use pet-safe sunscreen on dogs with thin coats or pink skin</li>
+                                <li>Check for and remove burrs and foxtails after walks</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>Fall Grooming</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>Begin brushing more as winter coat grows in</li>
+                                <li>Continue flea and tick prevention as directed</li>
+                                <li>Check for seasonal allergies affecting the skin</li>
+                                <li>Trim nails more frequently if walks decrease</li>
+                                <li>Apply paw balm if walking on frost or salt</li>
+                                <li>Keep ears dry during rainy season</li>
+                            </ul>
+                        </div>
+                        
+                        <div class="collapsible-heading">
+                            <h3>Winter Grooming</h3>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="collapsible-body">
+                            <ul>
+                                <li>Reduce bathing frequency to prevent dry skin</li>
+                                <li>Use a humidifier indoors to help with dry skin</li>
+                                <li>Trim hair between paw pads to prevent ice build-up</li>
+                                <li>Wipe paws after walks to remove salt and de-icers</li>
+                                <li>Apply paw balm before walks in snow or on salted sidewalks</li>
+                                <li>Brush regularly even though shedding is reduced</li>
+                                <li>Consider a dog coat for short-haired breeds</li>
+                            </ul>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="breed-specific-section">
+                    <h2>Breed-Specific Grooming Tips</h2>
+                    <p>Different breeds have different grooming needs based on their coat type and characteristics.</p>
+                    
+                    <div class="breed-filter">
+                        <label for="breed-grooming-filter">Select a coat type:</label>
+                        <select id="breed-grooming-filter" class="filter-select">
+                            <option value="all">All Coat Types</option>
+                            <option value="short">Short Coat</option>
+                            <option value="medium">Medium Coat</option>
+                            <option value="long">Long Coat</option>
+                            <option value="double">Double Coat</option>
+                            <option value="curly">Curly/Wool Coat</option>
+                            <option value="wire">Wire Coat</option>
+                            <option value="hairless">Hairless</option>
+                        </select>
+                    </div>
+                    
+                    <div class="breed-cards">
+                        <div class="breed-card" data-coat="short">
+                            <div class="breed-image" style="background-image: url('images/grooming/short-coat.jpg');"></div>
+                            <div class="breed-info">
+                                <h3>Short Coat Dogs</h3>
+                                <div class="grooming-level">
+                                    <span>Grooming Difficulty:</span> 
+                                    <div>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <p>Short-haired breeds like Beagles, Boxers, and Dachshunds require minimal grooming but still shed.</p>
+                                <div class="grooming-frequency">
+                                    <h4>Suggested Routine:</h4>
+                                    <ul>
+                                        <li>Brush weekly with a rubber brush</li>
+                                        <li>Bathe every 2-3 months</li>
+                                        <li>Check ears weekly</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="breed-card" data-coat="double">
+                            <div class="breed-image" style="background-image: url('images/grooming/double-coat.jpg');"></div>
+                            <div class="breed-info">
+                                <h3>Double Coat Dogs</h3>
+                                <div class="grooming-level">
+                                    <span>Grooming Difficulty:</span> 
+                                    <div>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <p>Double-coated breeds like German Shepherds, Huskies, and Golden Retrievers have a thick undercoat and longer outer coat.</p>
+                                <div class="grooming-frequency">
+                                    <h4>Suggested Routine:</h4>
+                                    <ul>
+                                        <li>Brush 2-3 times weekly with an undercoat rake</li>
+                                        <li>More frequent brushing during shedding seasons</li>
+                                        <li>Never shave (damages coat functions)</li>
+                                        <li>Bathe only when necessary</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="breed-card" data-coat="long">
+                            <div class="breed-image" style="background-image: url('images/grooming/long-coat.jpg');"></div>
+                            <div class="breed-info">
+                                <h3>Long Coat Dogs</h3>
+                                <div class="grooming-level">
+                                    <span>Grooming Difficulty:</span> 
+                                    <div>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="far fa-star"></i>
+                                    </div>
+                                </div>
+                                <p>Long-haired breeds like Shih Tzus, Maltese, and Afghan Hounds require significant grooming to prevent mats.</p>
+                                <div class="grooming-frequency">
+                                    <h4>Suggested Routine:</h4>
+                                    <ul>
+                                        <li>Daily brushing with pin brush and slicker brush</li>
+                                        <li>Regular professional grooming every 4-6 weeks</li>
+                                        <li>Check for mats behind ears and in armpits</li>
+                                        <li>Bathe every 4-6 weeks</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="breed-card" data-coat="curly">
+                            <div class="breed-image" style="background-image: url('images/grooming/curly-coat.jpg');"></div>
+                            <div class="breed-info">
+                                <h3>Curly/Wool Coat Dogs</h3>
+                                <div class="grooming-level">
+                                    <span>Grooming Difficulty:</span> 
+                                    <div>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                    </div>
+                                </div>
+                                <p>Curly-coated breeds like Poodles, Bichon Frises, and Portuguese Water Dogs have hair that continually grows and rarely sheds.</p>
+                                <div class="grooming-frequency">
+                                    <h4>Suggested Routine:</h4>
+                                    <ul>
+                                        <li>Brush daily with slicker brush</li>
+                                        <li>Professional grooming every 4-6 weeks</li>
+                                        <li>Regular haircuts required</li>
+                                        <li>Bathe every 3-4 weeks</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <section class="grooming-checklist">
+                    <h2>Grooming Checklist</h2>
+                    <p>Use this checklist to keep track of your dog's grooming needs:</p>
+                    
+                    <div class="checklist-grid">
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-brush">
+                            <label for="check-brush" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Brushing</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-bath">
+                            <label for="check-bath" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Bathing</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-nails">
+                            <label for="check-nails" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Nail Trimming</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-teeth">
+                            <label for="check-teeth" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Teeth Cleaning</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-ears">
+                            <label for="check-ears" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Ear Cleaning</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-eyes">
+                            <label for="check-eyes" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Eye Cleaning</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-paws">
+                            <label for="check-paws" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Paw Check</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                        
+                        <div class="checklist-item">
+                            <input type="checkbox" class="checklist-checkbox task-checkbox" id="check-pro">
+                            <label for="check-pro" class="task-checkbox-label"></label>
+                            <div class="checklist-text">
+                                <h3>Professional Grooming</h3>
+                                <p>Last done: _______</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                
+                <div class="info-note" style="background-color: #EDE7F6; padding: 20px; border-radius: var(--radius); margin-bottom: 30px;">
+                    <h3 style="color: #5E35B1;"><i class="fas fa-lightbulb"></i> Pro Tip</h3>
+                    <p>Start grooming routines when your dog is young to help them get used to being handled. Always make grooming a positive experience by using treats, praise, and patience. If your dog shows signs of extreme stress or you're unsure about any grooming task, consult a professional groomer.</p>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+</body>
+</html> 

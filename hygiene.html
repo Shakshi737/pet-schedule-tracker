@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Hygiene | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Hygiene Page Specific Styles */
+        .page-header {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hygiene-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .hygiene-section {
+            margin-bottom: 40px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .section-icon {
+            width: 50px;
+            height: 50px;
+            background-color: var(--primary-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .section-icon i {
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .hygiene-tips {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .tip-card {
+            background-color: var(--off-white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tip-card h4 {
+            color: var(--primary-dark);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .tip-card h4 i {
+            margin-right: 10px;
+            color: var(--secondary-color);
+        }
+
+        .frequency-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .frequency-table th, .frequency-table td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--light-gray);
+        }
+
+        .frequency-table th {
+            background-color: var(--primary-light);
+            color: white;
+        }
+
+        .frequency-table tr:hover {
+            background-color: var(--off-white);
+        }
+
+        .hygiene-image {
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto;
+            display: block;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .product-recommendations {
+            display: flex;
+            gap: 20px;
+            overflow-x: auto;
+            padding: 10px 0 20px;
+        }
+
+        .product-card {
+            min-width: 200px;
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 15px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-card img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: var(--radius);
+            margin-bottom: 10px;
+        }
+
+        .product-card h4 {
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .product-card p {
+            color: var(--text-light);
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .hygiene-tips {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html" class="active">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1>Pet Hygiene & Care</h1>
+            <p>Keep your pet clean, healthy, and happy with our recommended hygiene practices</p>
+        </div>
+
+        <main class="hygiene-container">
+            <section class="hygiene-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-bath"></i>
+                    </div>
+                    <div>
+                        <h2>Bath Time Basics</h2>
+                        <p>How to keep your pet clean without stressing them out</p>
+                    </div>
+                </div>
+
+                <div class="hygiene-tips">
+                    <div class="tip-card">
+                        <h4><i class="fas fa-clock"></i> How Often?</h4>
+                        <p>Most dogs should be bathed every 1-3 months, depending on their coat type and activity level. Overbathing can strip natural oils from their skin.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-tint"></i> Water Temperature</h4>
+                        <p>Use lukewarm water that's comfortable to the touch. Test it on your wrist first, just as you would for a baby.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-pump-soap"></i> Pet-Safe Products</h4>
+                        <p>Only use shampoos specifically formulated for dogs. Human products can disrupt their skin pH balance and cause irritation.</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Bathing Frequency by Breed</h3>
+                <table class="frequency-table">
+                    <thead>
+                        <tr>
+                            <th>Coat Type</th>
+                            <th>Recommended Frequency</th>
+                            <th>Special Considerations</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Short coat (Beagle, Labrador)</td>
+                            <td>Every 2-3 months</td>
+                            <td>Brush weekly to remove loose fur</td>
+                        </tr>
+                        <tr>
+                            <td>Double coat (Husky, German Shepherd)</td>
+                            <td>Every 3-4 months</td>
+                            <td>Regular brushing, avoid over-bathing</td>
+                        </tr>
+                        <tr>
+                            <td>Long coat (Shih Tzu, Yorkshire Terrier)</td>
+                            <td>Every 4-6 weeks</td>
+                            <td>Regular grooming to prevent matting</td>
+                        </tr>
+                        <tr>
+                            <td>Curly coat (Poodle, Bichon Frise)</td>
+                            <td>Every 3-4 weeks</td>
+                            <td>Professional grooming recommended</td>
+                        </tr>
+                        <tr>
+                            <td>Wrinkly skin (Bulldog, Shar Pei)</td>
+                            <td>Every 2-4 weeks</td>
+                            <td>Clean between folds regularly</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <section class="hygiene-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-tooth"></i>
+                    </div>
+                    <div>
+                        <h2>Dental Hygiene</h2>
+                        <p>Maintaining your pet's oral health prevents disease and bad breath</p>
+                    </div>
+                </div>
+
+                <div class="hygiene-tips">
+                    <div class="tip-card">
+                        <h4><i class="fas fa-brush"></i> Brushing</h4>
+                        <p>Aim to brush your pet's teeth 2-3 times per week with pet-specific toothpaste. Never use human toothpaste, which contains harmful ingredients.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-bone"></i> Dental Chews</h4>
+                        <p>Provide dental chews or toys to help reduce plaque buildup. Look for products with the Veterinary Oral Health Council (VOHC) seal.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-user-md"></i> Professional Cleaning</h4>
+                        <p>Schedule professional dental cleanings with your vet once a year to prevent periodontal disease.</p>
+                    </div>
+                </div>
+
+                <h3 class="section-title">Signs of Dental Problems</h3>
+                <ul class="hygiene-list">
+                    <li>Bad breath</li>
+                    <li>Yellow or brown buildup on teeth</li>
+                    <li>Bleeding or swollen gums</li>
+                    <li>Difficulty eating or decreased appetite</li>
+                    <li>Excessive drooling</li>
+                    <li>Pawing at the mouth</li>
+                </ul>
+
+                <h3 class="section-title">Recommended Products</h3>
+                <div class="product-recommendations">
+                    <div class="product-card">
+                        <img src="images/dental-brush.jpg" alt="Pet Toothbrush">
+                        <h4>Pet Finger Toothbrush</h4>
+                        <p>Gentle and effective cleaning</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="images/dental-paste.jpg" alt="Pet Toothpaste">
+                        <h4>Enzymatic Pet Toothpaste</h4>
+                        <p>Poultry flavor pets love</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="images/dental-treats.jpg" alt="Dental Treats">
+                        <h4>Dental Chew Sticks</h4>
+                        <p>Reduces plaque and tartar</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hygiene-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <div>
+                        <h2>Eye & Ear Care</h2>
+                        <p>Regular maintenance to prevent infections</p>
+                    </div>
+                </div>
+
+                <div class="hygiene-tips">
+                    <div class="tip-card">
+                        <h4><i class="fas fa-eye-dropper"></i> Eye Cleaning</h4>
+                        <p>Wipe away discharge with a damp cotton ball, working from the corner of the eye outward. Use separate cotton balls for each eye.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-deaf"></i> Ear Cleaning</h4>
+                        <p>Clean the outer ear canal weekly with a veterinary-approved ear cleaner. Never insert anything into the ear canal.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Warning Signs</h4>
+                        <p>Watch for redness, swelling, excessive discharge, or pawing at eyes/ears. These require veterinary attention.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="hygiene-section">
+                <div class="section-header">
+                    <div class="section-icon">
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <div>
+                        <h2>Nail Care</h2>
+                        <p>Proper nail maintenance for your pet's comfort</p>
+                    </div>
+                </div>
+
+                <div class="hygiene-tips">
+                    <div class="tip-card">
+                        <h4><i class="fas fa-ruler"></i> Trimming Schedule</h4>
+                        <p>Most pets need nail trims every 3-4 weeks. If you can hear nails clicking on the floor, they're too long.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-cut"></i> Trimming Technique</h4>
+                        <p>Cut just the tip of the nail, avoiding the quick (pink area with blood vessels). Use proper pet nail clippers.</p>
+                    </div>
+                    <div class="tip-card">
+                        <h4><i class="fas fa-first-aid"></i> Emergency Care</h4>
+                        <p>If you cut the quick, apply styptic powder immediately to stop bleeding. If bleeding continues for more than 5 minutes, contact your vet.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+</body>
+</html> 

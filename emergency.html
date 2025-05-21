@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Emergency Care | Pet Care & Schedule Tracker</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* Emergency Page Specific Styles */
+        .page-header {
+            background-color: #D32F2F;
+            color: white;
+            text-align: center;
+            padding: 40px 5%;
+            position: relative;
+        }
+        
+        .page-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40px;
+            background-color: var(--off-white);
+            clip-path: polygon(0 100%, 100% 0, 100% 100%);
+        }
+        
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .page-header p {
+            font-size: 1.1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .emergency-container {
+            padding: 40px 5%;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .emergency-notice {
+            background-color: #FFEBEE;
+            border-left: 5px solid #D32F2F;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+        }
+
+        .emergency-notice h2 {
+            color: #D32F2F;
+            display: flex;
+            align-items: center;
+        }
+
+        .emergency-notice h2 i {
+            margin-right: 10px;
+        }
+
+        .emergency-notice p {
+            margin-top: 10px;
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        .emergency-section {
+            background-color: var(--white);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+        }
+
+        .emergency-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .emergency-card {
+            background-color: var(--off-white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+            border-left: 4px solid #D32F2F;
+        }
+
+        .emergency-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .emergency-card h3 {
+            display: flex;
+            align-items: center;
+            color: #D32F2F;
+            margin-bottom: 15px;
+        }
+
+        .emergency-card h3 i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+        }
+
+        .emergency-card ul {
+            margin-top: 15px;
+            padding-left: 20px;
+        }
+
+        .emergency-card ul li {
+            margin-bottom: 8px;
+        }
+
+        .first-aid-steps {
+            padding-left: 0;
+            counter-reset: step-counter;
+            list-style: none;
+        }
+
+        .first-aid-steps li {
+            counter-increment: step-counter;
+            position: relative;
+            padding-left: 50px;
+            margin-bottom: 15px;
+            min-height: 40px;
+            display: flex;
+            align-items: center;
+        }
+
+        .first-aid-steps li::before {
+            content: counter(step-counter);
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 35px;
+            height: 35px;
+            background-color: #D32F2F;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .emergency-kit {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .kit-item {
+            background-color: var(--white);
+            padding: 15px;
+            border-radius: var(--radius);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-left: 3px solid #D32F2F;
+        }
+
+        .kit-icon {
+            width: 40px;
+            height: 40px;
+            background-color: #FFEBEE;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .kit-icon i {
+            color: #D32F2F;
+            font-size: 1.2rem;
+        }
+
+        .kit-details h4 {
+            margin-bottom: 5px;
+            font-size: 1rem;
+        }
+
+        .kit-details p {
+            font-size: 0.85rem;
+            color: var(--text-light);
+        }
+
+        .vet-contact {
+            background-color: #E8F5E9;
+            border-left: 5px solid #4CAF50;
+            padding: 20px;
+            border-radius: var(--radius);
+            margin-top: 30px;
+        }
+
+        .vet-contact h3 {
+            color: #2E7D32;
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .vet-contact h3 i {
+            margin-right: 10px;
+        }
+
+        .contact-form {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #E0E0E0;
+            border-radius: var(--radius);
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group textarea {
+            height: 100px;
+        }
+
+        .save-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: var(--radius);
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .save-btn:hover {
+            background-color: #2E7D32;
+        }
+
+        @media (max-width: 768px) {
+            .emergency-cards,
+            .emergency-kit {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="page-container">
+        <header>
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="images/logo.png" alt="Pet Care Logo" id="logo">
+                    <h1>PetCare<span>Buddy</span></h1>
+                </div>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </div>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="vaccine.html">Vaccines</a></li>
+                    <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                    <li><a href="deworming.html">Deworming</a></li>
+                    <li><a href="food.html">Food Chart</a></li>
+                    <li><a href="grooming.html">Grooming</a></li>
+                    <li><a href="hygiene.html">Hygiene</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="page-header">
+            <h1>Pet Emergency Care</h1>
+            <p>Be prepared for pet emergencies with our quick reference guide</p>
+        </div>
+
+        <main class="emergency-container">
+            <div class="emergency-notice">
+                <h2><i class="fas fa-exclamation-triangle"></i> IMPORTANT NOTICE</h2>
+                <p>This guide provides basic information for common pet emergencies. Always consult with a veterinarian as soon as possible for proper medical care.</p>
+                <p>Call your emergency vet clinic or pet poison hotline immediately if your pet is in distress.</p>
+            </div>
+
+            <section class="emergency-section">
+                <h2 class="section-title">Recognize Emergency Signs</h2>
+                <p>These symptoms require immediate veterinary attention:</p>
+
+                <div class="emergency-cards">
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-heartbeat"></i> Cardiac & Respiratory</h3>
+                        <ul>
+                            <li>Difficulty breathing or rapid breathing</li>
+                            <li>Blue or pale gums</li>
+                            <li>Collapse or fainting</li>
+                            <li>Severe coughing or choking</li>
+                            <li>Weak pulse or irregular heartbeat</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-thermometer-half"></i> Body Temperature</h3>
+                        <ul>
+                            <li>Extremely high temperature (over 103°F/39.4°C)</li>
+                            <li>Low temperature (below 99°F/37.2°C)</li>
+                            <li>Heat stroke symptoms (excessive panting, bright red gums)</li>
+                            <li>Hypothermia (shivering, lethargy)</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-tint"></i> Bleeding & Injury</h3>
+                        <ul>
+                            <li>Severe bleeding that doesn't stop within 5 minutes</li>
+                            <li>Deep wounds or punctures</li>
+                            <li>Broken bones or limping</li>
+                            <li>Trauma from falls or being hit by a car</li>
+                            <li>Eye injuries</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-skull-crossbones"></i> Poisoning</h3>
+                        <ul>
+                            <li>Ingestion of toxic substances</li>
+                            <li>Vomiting or diarrhea with blood</li>
+                            <li>Seizures or tremors</li>
+                            <li>Excessive drooling</li>
+                            <li>Sudden weakness or collapse</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-medkit"></i> Digestive Issues</h3>
+                        <ul>
+                            <li>Bloated, hard abdomen</li>
+                            <li>Unsuccessful attempts to vomit</li>
+                            <li>Severe or persistent vomiting</li>
+                            <li>Not eating or drinking for 24+ hours</li>
+                            <li>Inability to urinate</li>
+                        </ul>
+                    </div>
+
+                    <div class="emergency-card">
+                        <h3><i class="fas fa-brain"></i> Neurological</h3>
+                        <ul>
+                            <li>Seizures or convulsions</li>
+                            <li>Loss of consciousness</li>
+                            <li>Severe disorientation</li>
+                            <li>Head tilt or loss of balance</li>
+                            <li>Paralysis or inability to stand</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="emergency-section">
+                <h2 class="section-title">First Aid for Common Emergencies</h2>
+                
+                <h3>Bleeding</h3>
+                <ol class="first-aid-steps">
+                    <li>Apply direct pressure to the wound using a clean cloth or gauze.</li>
+                    <li>If blood soaks through, add another layer without removing the first.</li>
+                    <li>Elevate the wound if possible.</li>
+                    <li>Apply a pressure bandage if bleeding continues.</li>
+                    <li>Seek immediate veterinary care.</li>
+                </ol>
+
+                <h3>Poisoning</h3>
+                <ol class="first-aid-steps">
+                    <li>Identify the poison if possible and keep packaging.</li>
+                    <li>Do NOT induce vomiting unless instructed by a vet or poison control.</li>
+                    <li>Contact pet poison hotline: (888) 426-4435 or your emergency vet.</li>
+                    <li>Follow their instructions precisely.</li>
+                    <li>Take your pet to the vet immediately with the substance packaging.</li>
+                </ol>
+
+                <h3>Seizures</h3>
+                <ol class="first-aid-steps">
+                    <li>Keep your pet away from furniture or stairs where they could be injured.</li>
+                    <li>Do not put anything in your pet's mouth.</li>
+                    <li>Time the seizure - note start and end time.</li>
+                    <li>Keep the room quiet and dark if possible.</li>
+                    <li>Contact your vet once the seizure has ended.</li>
+                </ol>
+
+                <h3>Heatstroke</h3>
+                <ol class="first-aid-steps">
+                    <li>Move your pet to a cool area immediately.</li>
+                    <li>Apply cool (not cold) water to the body, especially neck, armpits, and groin.</li>
+                    <li>Place wet towels on your pet and direct a fan toward them.</li>
+                    <li>Offer small amounts of cool water to drink.</li>
+                    <li>Transport to the vet even if symptoms improve.</li>
+                </ol>
+            </section>
+
+            <section class="emergency-section">
+                <h2 class="section-title">Emergency Pet First Aid Kit</h2>
+                <p>Keep these items in an easily accessible location:</p>
+
+                <div class="emergency-kit">
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Phone Numbers</h4>
+                            <p>Regular vet, emergency vet, poison hotline</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-file-medical"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Medical Records</h4>
+                            <p>Copy of important medical history</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-band-aid"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Gauze & Bandages</h4>
+                            <p>Non-stick bandages, gauze pads, adhesive tape</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-cut"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Scissors & Tweezers</h4>
+                            <p>Blunt-end scissors, splinter tweezers</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-tint"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Antiseptic Solution</h4>
+                            <p>Pet-safe disinfectant</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-thermometer"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Digital Thermometer</h4>
+                            <p>Rectal thermometer with lubricant</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-syringe"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Oral Syringe</h4>
+                            <p>For administering oral medications</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-eye-dropper"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Saline Eye Wash</h4>
+                            <p>For flushing wounds or eyes</p>
+                        </div>
+                    </div>
+                    
+                    <div class="kit-item">
+                        <div class="kit-icon">
+                            <i class="fas fa-briefcase-medical"></i>
+                        </div>
+                        <div class="kit-details">
+                            <h4>Muzzle</h4>
+                            <p>Even friendly pets may bite when in pain</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="emergency-section">
+                <h2 class="section-title">Emergency Transport</h2>
+                <p>If you need to transport your pet during an emergency:</p>
+                <ul>
+                    <li>Call the vet ahead so they can prepare for your arrival</li>
+                    <li>For small pets, use a carrier lined with a towel</li>
+                    <li>For larger dogs, use a rigid surface like a board as a stretcher</li>
+                    <li>Muzzle your pet if necessary for safety (do not muzzle if vomiting or having breathing difficulties)</li>
+                    <li>Minimize movement if you suspect broken bones</li>
+                    <li>Keep the pet warm with blankets</li>
+                    <li>Drive carefully - having someone else drive while you attend to the pet is ideal</li>
+                </ul>
+            </section>
+
+            <div class="vet-contact">
+                <h3><i class="fas fa-user-md"></i> Save Your Veterinarian's Contact Information</h3>
+                <p>Add your regular and emergency veterinarian contact details below for quick access during emergencies:</p>
+                
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label for="regular-vet">Regular Veterinarian</label>
+                        <input type="text" id="regular-vet" placeholder="Veterinarian Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="regular-phone">Phone Number</label>
+                        <input type="text" id="regular-phone" placeholder="Phone Number">
+                    </div>
+                    <div class="form-group">
+                        <label for="regular-address">Address</label>
+                        <textarea id="regular-address" placeholder="Address"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="emergency-vet">Emergency Veterinarian</label>
+                        <input type="text" id="emergency-vet" placeholder="Emergency Vet Name">
+                    </div>
+                    <div class="form-group">
+                        <label for="emergency-phone">Emergency Phone</label>
+                        <input type="text" id="emergency-phone" placeholder="Emergency Phone">
+                    </div>
+                    <div class="form-group">
+                        <label for="emergency-address">Emergency Address</label>
+                        <textarea id="emergency-address" placeholder="Emergency Address"></textarea>
+                    </div>
+                </div>
+                
+                <button class="save-btn" id="save-contacts">
+                    <i class="fas fa-save"></i> Save Contact Information
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h2>PetCare<span>Buddy</span></h2>
+                    <p>Your one-stop solution for pet care schedules</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="vaccine.html">Vaccines</a></li>
+                        <li><a href="ticks-fleas.html">Ticks & Fleas</a></li>
+                        <li><a href="deworming.html">Deworming</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h3>Resources</h3>
+                    <ul>
+                        <li><a href="food.html">Food Chart</a></li>
+                        <li><a href="grooming.html">Grooming</a></li>
+                        <li><a href="hygiene.html">Hygiene</a></li>
+                        <li><a href="emergency.html">Emergency</a></li>
+                    </ul>
+                </div>
+                <div class="newsletter">
+                    <h3>Subscribe to Newsletter</h3>
+                    <div class="newsletter-form">
+                        <input type="email" placeholder="Enter your email">
+                        <button>Subscribe</button>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 PetCareBuddy. All Rights Reserved.</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script src="js/animation.js"></script>
+    <script>
+        // Emergency contact saving functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load saved contacts if any
+            if (localStorage.getItem('vetContacts')) {
+                const contacts = JSON.parse(localStorage.getItem('vetContacts'));
+                document.getElementById('regular-vet').value = contacts.regularVet || '';
+                document.getElementById('regular-phone').value = contacts.regularPhone || '';
+                document.getElementById('regular-address').value = contacts.regularAddress || '';
+                document.getElementById('emergency-vet').value = contacts.emergencyVet || '';
+                document.getElementById('emergency-phone').value = contacts.emergencyPhone || '';
+                document.getElementById('emergency-address').value = contacts.emergencyAddress || '';
+            }
+            
+            // Save contact information
+            document.getElementById('save-contacts').addEventListener('click', function() {
+                const contacts = {
+                    regularVet: document.getElementById('regular-vet').value,
+                    regularPhone: document.getElementById('regular-phone').value,
+                    regularAddress: document.getElementById('regular-address').value,
+                    emergencyVet: document.getElementById('emergency-vet').value,
+                    emergencyPhone: document.getElementById('emergency-phone').value,
+                    emergencyAddress: document.getElementById('emergency-address').value
+                };
+                
+                localStorage.setItem('vetContacts', JSON.stringify(contacts));
+                alert('Contact information saved successfully!');
+            });
+        });
+    </script>
+</body>
+</html> 
